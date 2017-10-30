@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hello World!</title>
+</head>
+
+<body>
+  <div id="info">
+    <h1>Hello World!</h1> We are using node
+    <script>
+      document.write(process.versions.node)
+    </script>, Chrome
+    <script>
+      document.write(process.versions.chrome)
+    </script>, and Electron
+    <script>
+      document.write(process.versions.electron)
+    </script>.
+  </div>
+
+
+
+
+  <button class="btn btn-primary" id="btn">Add to list!</button>
+  <div id="response"></div>
+
+
+
+  <script>
+    const {
+      ipcRenderer
+    } = require('electron')
+
+    var $ = require('jQuery');
+    $('#id').hide();
+
+    document.getElementById('btn').addEventListener('click', function() {
+      ipcRenderer.send('asynchronous-message', 'async ping')
+    }, false);
+
+    ipcRenderer.on('asynchronous-reply', (event, arg) => {
+      console.log(arg)
+      $('#info').hide();
+      $('#id').show();
+      document.getElementById('response').innerHTML = arg
+    })
+  </script>
+</body>
+
+</html>
